@@ -11,6 +11,7 @@ import csv
 import time
 import datetime
 import random
+import os
 
 # Set up a fake user agent
 ua = UserAgent()
@@ -76,7 +77,10 @@ def scrape_and_save():
     print("Scraping started at: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time)))
 
     # Construct the filename using the current date
-    filename = "mlb_pitcher_strikeouts_" + time.strftime("%Y_%m_%d") + ".csv"
+    directory = "data"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    filename = os.path.join(directory, "mlb_pitcher_strikeouts_" + time.strftime("%Y_%m_%d") + ".csv")
 
     # Open the CSV file for appending
     with open(filename, "a", newline="") as file:
@@ -115,6 +119,9 @@ def scrape_and_save():
 while True:  # Infinite loop
     options = uc.ChromeOptions()
     options.add_argument(f"user-agent={user_agent}")
+    options.add_argument("--headless")  # Ensure GUI is off
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     driver = uc.Chrome(options=options)
     try:
         navigate_to_mlb()

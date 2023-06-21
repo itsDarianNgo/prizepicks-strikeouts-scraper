@@ -18,6 +18,17 @@ ua = UserAgent()
 user_agent = ua.random
 
 
+from git import Repo
+
+
+# Function to push to GitHub
+def push_to_git():
+    repo = Repo("C:/Users/daria/OneDrive/Desktop/PrizePicks-Strikeouts-Scraper")
+    repo.git.add("--all")
+    repo.git.commit("-m", "Update data")
+    repo.git.push("origin", "main")
+
+
 # Function for random sleep times
 def random_sleep(min_time=5, max_time=15):
     sleep_time = random.uniform(min_time, max_time)
@@ -127,6 +138,7 @@ while True:  # Infinite loop
         navigate_to_mlb()
         navigate_to_pitcher_strikeouts()
         scrape_and_save()
+        push_to_git()
     except Exception as e:
         print(f"An error occurred: {e}")
         print(f"Retrying in 1 hour...")

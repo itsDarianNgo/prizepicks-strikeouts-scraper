@@ -12,6 +12,7 @@ import time
 import datetime
 import random
 import os
+from git import Repo
 
 # Set up a fake user agent
 ua = UserAgent()

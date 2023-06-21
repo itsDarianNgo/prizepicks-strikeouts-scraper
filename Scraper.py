@@ -24,7 +24,7 @@ from git import Repo
 
 # Function to push to GitHub
 def push_to_git():
-    repo = Repo("C:/Users/daria/OneDrive/Desktop/PrizePicks-Strikeouts-Scraper")
+    repo = Repo("/home/azureuser/project/prizepicks-strikeouts-scraper")
     repo.git.add("--all")
     repo.git.commit("-m", "Update data")
     repo.git.push("origin", "main")

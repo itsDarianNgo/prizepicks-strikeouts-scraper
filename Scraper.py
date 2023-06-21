@@ -122,8 +122,8 @@ while True:  # Infinite loop
         scrape_and_save()
     except Exception as e:
         print(f"An error occurred: {e}")
-        print(f"Retrying in 30 seconds...")
+        print(f"Retrying in 1 hour...")
         time.sleep(3600)
     finally:
         driver.quit()
-    time.sleep(7200)  # Sleep for 2 hours
+    time.sleep(7200)

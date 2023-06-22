@@ -137,9 +137,8 @@ while True:  # Infinite loop
     driver = uc.Chrome(options=options)
     # Increase the script timeout to handle slow page loads.
     options.add_argument("--timeout=500")
-    driver = uc.Chrome(options=options)
-    # Increase the default wait time for elements to load.
-    driver.implicitly_wait(30)
+    # Set the script timeout value.
+    driver.set_script_timeout(500)
 
     try:
         navigate_to_mlb()

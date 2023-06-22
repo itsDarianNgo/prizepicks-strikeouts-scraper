@@ -51,6 +51,7 @@ def close_popup():
 def navigate_to_mlb():
     print("Loading app.prizepicks.com...")
     driver.get("https://app.prizepicks.com/")
+    print("Finished loading")
     close_popup()
     print("Looking for MLB tab")
     # Wait for the MLB tab to appear and click on it

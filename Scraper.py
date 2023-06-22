@@ -49,9 +49,10 @@ def close_popup():
 
 # Function to navigate to the PrizePicks MLB section
 def navigate_to_mlb():
-    print("Looking for MLB tab")
+    print("Loading app.prizepicks.com...")
     driver.get("https://app.prizepicks.com/")
     close_popup()
+    print("Looking for MLB tab")
     # Wait for the MLB tab to appear and click on it
     mlb_tab = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[text()="MLB"]')))
     random_sleep()

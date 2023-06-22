@@ -135,6 +135,10 @@ while True:  # Infinite loop
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     driver = uc.Chrome(options=options)
+    # Increase the script timeout to handle slow page loads.
+    options.add_argument("--timeout=500")
+    # Increase the default wait time for elements to load.
+    driver.implicitly_wait(30)
     try:
         navigate_to_mlb()
         navigate_to_pitcher_strikeouts()

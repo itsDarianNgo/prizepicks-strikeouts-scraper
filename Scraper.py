@@ -54,10 +54,12 @@ def navigate_to_mlb():
     close_popup()
     print("Looking for MLB tab")
     # Wait for the MLB tab to appear and click on it
-    mlb_tab = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[text()="MLB"]')))
+    mlb_tab = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, '//div[text()="MLB"]')))
+    print("MLB tab found")
     random_sleep()
+    print("About to click MLB tab")
     mlb_tab.click()
-    print("Clicked MLB Tab")
+    print("MLB tab clicked")
 
 
 # Function to navigate to the 'Pitcher Strikeouts' category
@@ -140,6 +142,8 @@ while True:  # Infinite loop
     options = uc.ChromeOptions()
     options.add_argument(f"user-agent={user_agent}")
     options.add_argument("--headless")  # Ensure GUI is off
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-software-rasterizer")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     driver = uc.Chrome(options=options)

@@ -142,8 +142,6 @@ while True:  # Infinite loop
     options = uc.ChromeOptions()
     options.add_argument(f"user-agent={user_agent}")
     options.add_argument("--headless")  # Ensure GUI is off
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-software-rasterizer")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     driver = uc.Chrome(options=options)

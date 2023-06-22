@@ -110,7 +110,7 @@ def scrape_and_save():
         writer = csv.writer(file)
         # Write the header row if the file is empty
         if file.tell() == 0:
-            writer.writerow(["Time of Scrape", "Player Name", "Team", "Position", "Game Start Date/Time", "Opponent", "Strikeout Predictions"])
+            writer.writerow(["Time of Scrape", "Player Name", "Team", "Position", "Opponent", "Strikeout Predictions"])
 
         # Locate all the player elements
         player_elements = driver.find_elements(By.CLASS_NAME, "projection")
@@ -121,15 +121,13 @@ def scrape_and_save():
             name = player.find_element(By.CLASS_NAME, "name").text
             team_position = player.find_element(By.CLASS_NAME, "team-position").text
             team, position = team_position.split(" - ")
-            date = ", ".join([player.find_element(By.CLASS_NAME, "date").text.split(", ")[1] + ", " + str(datetime.datetime.now().year)])
-            # split 'Tue, Jun 20 5:40 PM' into ['Tue', 'Jun 20 5:40 PM'], get the second element, add the current year and then join them together PM' into ['Tue', 'Jun 20 5:40 PM'], get the second element, and append the current year
             opponent = player.find_element(By.CLASS_NAME, "opponent").text.split(" ")[
                 1
             ]  # split 'vs PHI' into ['vs', 'PHI'] and get the second element
             strikeout_predictions = player.find_element(By.XPATH, './/div[@class="presale-score"]').get_attribute("innerHTML")
 
             # Write the data to the CSV file
-            writer.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), name, team, position, date, opponent, strikeout_predictions])
+            writer.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), name, team, position, opponent, strikeout_predictions])
 
         end_time = time.time()  # Record the end time
         print("Scraping completed at: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(end_time)))

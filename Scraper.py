@@ -38,21 +38,25 @@ def random_sleep(min_time=5, max_time=15):
 
 # Function to close the pop-up
 def close_popup():
+    print("Looking for popup")
     # Wait for the pop-up to appear
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div/div/div[3]/button")))
     random_sleep()
     # Click the close button
     driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div/div[3]/button").click()
+    print("Closed popup")
 
 
 # Function to navigate to the PrizePicks MLB section
 def navigate_to_mlb():
+    print("Looking for MLB tab")
     driver.get("https://app.prizepicks.com/")
     close_popup()
     # Wait for the MLB tab to appear and click on it
     mlb_tab = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, '//div[text()="MLB"]')))
     random_sleep()
     mlb_tab.click()
+    print("Clicked MLB Tab")
 
 
 # Function to navigate to the 'Pitcher Strikeouts' category
@@ -60,6 +64,7 @@ def navigate_to_pitcher_strikeouts():
     # Try to click on the 'Pitcher Strikeouts' category
     while True:
         try:
+            print("Trying to click on Pitcher Strikeouts")
             # Wait until the category container is present on the page
             category_container = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".stat-container")))
 
@@ -71,10 +76,12 @@ def navigate_to_pitcher_strikeouts():
 
             # Make sure 'Pitcher Strikeouts' is one of the categories
             if "Pitcher Strikeouts" not in categories:
+                print("Could not find the 'Pitcher Strikeouts' category")
                 raise Exception("Could not find the 'Pitcher Strikeouts' category")
 
             random_sleep()
             categories["Pitcher Strikeouts"].click()
+            print("Clicked Pitcher Strikeouts")
 
             # If the click was successful, break out of the loop
             break

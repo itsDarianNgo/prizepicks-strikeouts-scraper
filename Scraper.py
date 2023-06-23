@@ -70,7 +70,7 @@ def navigate_to_pitcher_strikeouts():
         try:
             print("Trying to click on Pitcher Strikeouts")
             # Wait until the category container is present on the page
-            category_container = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".stat-container")))
+            category_container = WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".stat-container")))
 
             # Find all the category divs within the stat-container
             category_divs = category_container.find_elements(By.CSS_SELECTOR, ".stat")

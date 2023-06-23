@@ -99,18 +99,21 @@ def scrape_and_save():
     start_time = time.time()  # Record the start time
     print("Scraping started at: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time)))
 
-    # Construct the filename using the current date
+    # Construct the filename
     directory = "data"
     if not os.path.exists(directory):
         os.makedirs(directory)
-    filename = os.path.join(directory, "mlb_pitcher_strikeouts_" + time.strftime("%Y_%m_%d") + ".csv")
+    filename = os.path.join(directory, "prizepicks_mlb_pitcher_strikeouts.csv")
 
     # Open the CSV file for appending
     with open(filename, "a", newline="") as file:
         writer = csv.writer(file)
         # Write the header row if the file is empty
         if file.tell() == 0:
-            writer.writerow(["Time of Scrape", "Player Name", "Team", "Position", "Opponent", "Strikeout Predictions"])
+            writer.writerow(["Time of Scrape", "Player Name", "Team", "Position", "Game Start Date", "Opponent", "Strikeout Predictions"])
+
+        # Wait until at least one player element is present on the page
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "projection")))
 
         # Locate all the player elements
         player_elements = driver.find_elements(By.CLASS_NAME, "projection")
@@ -118,16 +121,25 @@ def scrape_and_save():
         # Loop over each player
         for player in player_elements:
             # Locate and extract each piece of data
+
+            # Extracts name
             name = player.find_element(By.CLASS_NAME, "name").text
+            # Extracts team position
             team_position = player.find_element(By.CLASS_NAME, "team-position").text
             team, position = team_position.split(" - ")
+            # Extracts date
+            date_element = player.find_element(By.CLASS_NAME, "date").text.split(", ")[1]
+            date_without_time = " ".join(date_element.split()[:2])  # keeps only the month and day
+            date = date_without_time + ", " + str(datetime.datetime.now().year)
+            # Extracts opponent
             opponent = player.find_element(By.CLASS_NAME, "opponent").text.split(" ")[
                 1
             ]  # split 'vs PHI' into ['vs', 'PHI'] and get the second element
+            # Extrats strikeout predictions
             strikeout_predictions = player.find_element(By.XPATH, './/div[@class="presale-score"]').get_attribute("innerHTML")
 
             # Write the data to the CSV file
-            writer.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), name, team, position, opponent, strikeout_predictions])
+            writer.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), name, team, position, date, opponent, strikeout_predictions])
 
         end_time = time.time()  # Record the end time
         print("Scraping completed at: ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(end_time)))
@@ -160,4 +172,5 @@ while True:  # Infinite loop
         time.sleep(3600)
     finally:
         driver.quit()
-    time.sleep(7200)
+    print("Sleeping for 1 hour...")
+    time.sleep(3600)
